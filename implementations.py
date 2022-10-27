@@ -338,12 +338,32 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     w = initial_w
     loss = 100
 
-    pbar = tqdm(range(max_iters))
-    for n_iter in pbar:
+    # pbar = tqdm(range(max_iters))
+    # for n_iter in pbar:
+    for n_iter in range(max_iters):
         loss, grad = penalized_logistic_regression(y, tx, w, lambda_)
         w = w - gamma * grad
-        if n_iter % 10 == 0:
-            pbar.set_description("Loss: {:.3f}".format(loss))
+        # if n_iter % 10 == 0:
+        #     pbar.set_description("Loss: {:.3f}".format(loss))
     return w, loss
+
+# ================================================================================
+
+
+def predict_simple(tx, w):
+    scores = tx @ w
+    dist_to_zero = np.abs(scores)
+    dist_to_one = np.sqrt((scores - 1) ** 2)
+    labels = np.zeros_like(scores)
+    labels[dist_to_one < dist_to_zero] = 1
+    return labels
+
+
+def predict_logistic(tx, w):
+    scores = sigmoid(tx @ w)
+    labels = np.zeros_like(scores)
+    labels[scores > 0.5] = 1
+    return labels
+
 
 
