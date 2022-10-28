@@ -325,20 +325,21 @@ def ridge_regression(y, tx, lambda_):
 
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
+    """just to get rid of the fucking error"""
     w = initial_w
-    loss = calculate_loss(y, tx, w)
     for n_iter in range(max_iters):
         loss, w = learning_by_gradient_descent(y, tx, w, gamma)
+    loss = compute_loss(y, tx, w)
     return w, loss
 
 
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
+    """just to get rid of the fucking error"""
     w = initial_w
-    loss = calculate_loss(y, tx, w)
-
     for n_iter in range(max_iters):
         loss, grad = penalized_logistic_regression(y, tx, w, lambda_)
         w = w - gamma * grad
+    loss = calculate_loss(y, tx, w)
     return w, loss
 
 # ================================================================================
