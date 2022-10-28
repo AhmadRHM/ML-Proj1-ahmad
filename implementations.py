@@ -34,7 +34,7 @@ def compute_loss(y, tx, w):
     """
     e = y - tx.dot(w)
     N = y.shape[0]
-    loss = 0.5 / N * e.T.dot(e)
+    loss = 0.5 * (e ** 2).mean()
     return loss
 
 
