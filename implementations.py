@@ -269,9 +269,9 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
 
     for n_iter in range(max_iters):
         for y_, tx_ in batch_iter(y, tx, batch_size):
-            loss = compute_loss(y_, tx_, w)
             g_loss = compute_gradient(y_, tx_, w)
             w = w - gamma * g_loss
+            loss = compute_loss(y_, tx_, w)
             ws.append(w)
             losses.append(loss)
 
@@ -298,8 +298,7 @@ def least_squares(y, tx):
 
     w_star = np.linalg.solve(tx.T.dot(tx), tx.T.dot(y))
     e = y - tx.dot(w_star)
-    N = y.shape[0]
-    loss_star = 0.5 / N * e.T.dot(e)
+    loss_star = 0.5 * (e ** 2).mean()
     return w_star, loss_star
 
 
@@ -327,7 +326,7 @@ def ridge_regression(y, tx, lambda_):
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
     w = initial_w
-    loss = 100
+    loss = calculate_loss(y, tx, w)
     for n_iter in range(max_iters):
         loss, w = learning_by_gradient_descent(y, tx, w, gamma)
     return w, loss
@@ -335,15 +334,11 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
 
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     w = initial_w
-    loss = 100
+    loss = calculate_loss(y, tx, w)
 
-    # pbar = tqdm(range(max_iters))
-    # for n_iter in pbar:
     for n_iter in range(max_iters):
         loss, grad = penalized_logistic_regression(y, tx, w, lambda_)
         w = w - gamma * grad
-        # if n_iter % 10 == 0:
-        #     pbar.set_description("Loss: {:.3f}".format(loss))
     return w, loss
 
 # ================================================================================
