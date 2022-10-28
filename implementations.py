@@ -8,16 +8,16 @@ def compute_gradient(y, tx, w):
 
     Args:
         y: numpy array of shape=(N, )
-        tx: numpy array of shape=(N,2)
-        w: numpy array of shape=(2, ). The vector of model parameters.
+        tx: numpy array of shape=(N,D)
+        w: numpy array of shape=(D, ). The vector of model parameters.
 
     Returns:
         An numpy array of shape (2, ) (same shape as w), containing the gradient of the loss at w.
     """
     e = y - tx.dot(w)
     N = y.shape[0]
-    g_loss = -1 / N * tx.T.dot(e)
-    return (g_loss)
+    g_loss = -1 / N * tx.T @ e
+    return g_loss
 
 
 def compute_loss(y, tx, w):
@@ -33,7 +33,6 @@ def compute_loss(y, tx, w):
         the value of the loss (a scalar), corresponding to the input parameters w.
     """
     e = y - tx.dot(w)
-    N = y.shape[0]
     loss = 0.5 * (e ** 2).mean()
     return loss
 
