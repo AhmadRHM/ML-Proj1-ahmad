@@ -34,7 +34,7 @@ def compute_loss(y, tx, w):
     """
     e = y - tx.dot(w)
     N = y.shape[0]
-    loss = 0.5*N * e.T.dot(e)
+    loss = 0.5 / N * e.T.dot(e)
     return loss
 
 
@@ -263,7 +263,7 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
     # Define parameters to store w and loss
     batch_size = 1
     ws = [initial_w]
-    losses = []
+    losses = [compute_loss(y, tx, initial_w)]
     w = initial_w
 
     N = y.shape[0]
