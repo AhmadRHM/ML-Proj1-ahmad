@@ -230,9 +230,9 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
     losses = [compute_loss(y, tx, initial_w)]
     w = initial_w
     for n_iter in range(max_iters):
-        loss = compute_loss(y, tx, w)
         g_loss = compute_gradient(y, tx, w)
         w = w - gamma * g_loss
+        loss = compute_loss(y, tx, w)
 
         # store w and loss
         ws.append(w)
