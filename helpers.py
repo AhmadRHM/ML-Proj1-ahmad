@@ -37,3 +37,9 @@ def create_csv_submission(ids, y_pred, name):
         for r1, r2 in zip(ids, y_pred):
             writer.writerow({"Id": int(r1), "Prediction": int(r2)})
 
+def fill_missing(x, col_idx, func):
+    replace_val = func(x[x[:, col_idx] != -999, col_idx])
+    print(replace_val)
+    x[x[:, col_idx] == -999, col_idx] = replace_val
+    return x
+

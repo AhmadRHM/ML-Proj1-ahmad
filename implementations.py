@@ -1,6 +1,5 @@
 import numpy as np
 from matplotlib import pyplot as plt
-from tqdm import tqdm
 
 
 def compute_gradient(y, tx, w):
@@ -347,10 +346,11 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
 
 def predict_simple(tx, w):
     scores = tx @ w
-    dist_to_zero = np.abs(scores)
-    dist_to_one = np.sqrt((scores - 1) ** 2)
-    labels = np.zeros_like(scores)
-    labels[dist_to_one < dist_to_zero] = 1
+    # dist_to_negative_one = np.abs((scores + 1) ** 2)
+    # dist_to_one = np.sqrt((scores - 1) ** 2)
+    labels = np.ones_like(scores) * -1
+    # labels[dist_to_one < dist_to_negative_one] = 1
+    labels[scores > 0] = 1
     return labels
 
 
